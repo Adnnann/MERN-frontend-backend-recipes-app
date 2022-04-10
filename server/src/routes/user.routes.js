@@ -1,0 +1,25 @@
+import express from 'express'
+import userCtrl from '../controllers/users.controller'
+import passport from 'passport'
+require('../middleware/passport')
+
+const router = express.Router()
+
+router.get('/protected', passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+        if(req.cookies.userJwtToken){
+            res.send(
+               JSON.stringify({message: req.cookies.userJwtToken})
+            )
+        }
+    }
+)
+
+router.route('/api/users/:userId')
+.get(userCtrl.read)
+.put(userCtrl.update)
+.delete(userCtrl.remove)
+
+router.param('userId', userCtrl.userByID)
+
+export default router
