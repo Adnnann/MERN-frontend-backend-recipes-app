@@ -11,8 +11,11 @@ import {getSigninModal,
         getUserSigninData, 
         getUserSigninStatus,
         resetStore,
+        setAddRecipeModal,
         setSigninModal,
-        signoutUser
+        setUserProfileModalStatus,
+        signoutUser,
+        
 } from '../../features/recipesSlice'
 import { useNavigate } from 'react-router-dom'
 
@@ -37,17 +40,17 @@ const Header = () => {
     return(
         <>
         <Nav className="justify-content-start" 
-        style={{marginBottom:"5%", borderBottomStyle:'solid', borderBottomWidth:'1px', marginTop:'2%', width:"98%", marginLeft:'1%'}}>
+        style={{marginBottom:"2%", borderBottomStyle:'solid', borderBottomWidth:'1px', marginTop:'2%', width:"98%", marginLeft:'1%'}}>
             
             <Nav.Item style={{marginLeft:"2%"}}>
-                <Image src={CookbookIcon} width={'50px'} />
+                <Image src={CookbookIcon} width={'50px'} onClick={()=>navigate('/')}/>
             </Nav.Item>
 
             <Nav.Item style={{marginLeft:"2%"}}>
                 <h1>Cookbook</h1>
             </Nav.Item>
 
-            <Nav.Item style={{marginLeft:'auto', marginBottom:'2px'}} onClick={()=>navigate('/addToCart')}>
+            <Nav.Item style={{marginLeft:'auto', marginBottom:'2px'}} onClick={()=>dispatch(setAddRecipeModal(true))}>
                {<Image src={AddRecipeIcon} width={'50px'} /> } 
             </Nav.Item>
 
@@ -62,8 +65,8 @@ const Header = () => {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={()=>navigate('/orderHistory')}>My Profile</Dropdown.Item>
-                        <Dropdown.Item onClick={()=>navigate('/orderHistory')}>My Recepies</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>dispatch(setUserProfileModalStatus(true))}>My Profile</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>navigate('/userRecipes')}>My Recepies</Dropdown.Item>
                         <Dropdown.Item onClick={signout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
 

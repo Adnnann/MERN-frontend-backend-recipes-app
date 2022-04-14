@@ -30,6 +30,7 @@ const Signin = () => {
         dispatch(setSigninModal(false))
         //dispatch(setUserSiginStatus(true))
         dispatch(fetchRecipes())
+        navigate('/')
       }
     },[signinUserData])
 

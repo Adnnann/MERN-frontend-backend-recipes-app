@@ -1,4 +1,5 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose');
+const { ModuleFilenameHelpers } = require('webpack');
 
 const ImageSchema = new mongoose.Schema({
     image:{
@@ -12,4 +13,5 @@ const ImageSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('Image', ImageSchema);
+const Image =  mongoose.model('Image', ImageSchema);
+module.exports = Image

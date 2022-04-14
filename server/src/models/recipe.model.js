@@ -9,8 +9,7 @@ const RecipesSchema = new mongoose.Schema({
     },
     title:{
         type: String,
-        required:'Name of Recipe is required',
-        match:[/^[a-zA-Z0-9\s]+$/, 'Only letters can be used for title']
+        required:'Recipe title is required',
     },
     description:{
         type: Object,
@@ -33,15 +32,27 @@ const RecipesSchema = new mongoose.Schema({
         type:Array
     },
     rating:{
-        type: String
+        type: String,
+        default:0
     },
     ingredients:{
         type: Array,
-        Required: 'Enter at least on ingredient'
+        required: 'Enter at least on ingredient'
+    },
+    created:{
+        type: Date,
+        default: Date.now
     },
     numberOfRaters:{
         type:Number
-    }
+    },
+    image:{
+        type:String
+    },
+    status:{
+        type:String
+    },
+    updated: Date
 })
 
 RecipesSchema.path("title").validate(async function (title) {

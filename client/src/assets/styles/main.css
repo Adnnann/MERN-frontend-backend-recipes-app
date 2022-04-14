@@ -1,0 +1,25 @@
+.recipes {
+    max-height:700px ;
+}
+
+@media (max-width: 575.98px) { 
+    .recipes{
+        max-height:200px ; 
+        margin-bottom:10px;
+    }
+ }
+ .highestRatedRecipes{
+     max-height: 340px;
+     overflow-x: hidden;
+ }
+ @media (max-width: 575.98px) { 
+    .highestRatedRecipes{
+        max-height:200px ; 
+        margin-bottom:10px;
+    }
+ }
+ @media (min-width: 1200px) { 
+    .similarRecipes{
+        margin-left: 10px;
+    }
+ }

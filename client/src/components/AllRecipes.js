@@ -1,15 +1,20 @@
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/esm/Button'
 import { useDispatch, useSelector } from 'react-redux'
-//import { getUserSigninStatus, setModal, setSelectedDough } from '../../features/pizzaSlice'
 import { useNavigate } from 'react-router-dom'
-import Categories from '../assets/recipeCategories/recipeCategories'
 import RatingStars from './RatingStars'
-import Form from 'react-bootstrap/Form'
 import { useEffect } from 'react'
-import { fetchRecipes, getAllRecipes, editRecipe, getFilterRecipes, getUserSigninData } from '../features/recipesSlice'
+import {fetchRecipes, 
+        getAllRecipes, 
+        editRecipe, 
+        getFilterRecipes, 
+        getUserSigninData, 
+        setRecipe, 
+        getEditRecipeStatus, 
+        clearEditRecipeMessageStatus 
+} from '../features/recipesSlice'
 import FilterRecipes from './FilterRecipes'
+import '../assets/styles/main.css'
 const AllRecipes = () => {
 
 const dispatch = useDispatch()
@@ -17,12 +22,20 @@ const navigate = useNavigate()
 
 const allRecipes = useSelector(getAllRecipes)
 const filter = useSelector(getFilterRecipes)
+const userData = useSelector(getUserSigninData)
+const editRecipeStatus = useSelector(getEditRecipeStatus)
+
+const rate = useSelector(getEditRecipeStatus)
 
 
-// useEffect(()=>{
-//     dispatch(fetchRecipes())
+useEffect(()=>{
+    if(rate.hasOwnProperty('message')){
+        dispatch(fetchRecipes())
+        dispatch(clearEditRecipeMessageStatus())
+    }
     
-// },[dispatch])
+    
+},[rate])
 
 //if user gets token from server during login login status will be set
 //to true and will enable displaying of components that only signedin user
@@ -34,13 +47,14 @@ const filter = useSelector(getFilterRecipes)
 //     dispatch(setModal(true))
 // }
 
-const handleRating = (event, id) => {
+const handleRating = (event, id, ingredients) => {
     
     const recipe = {
         param: id,
         data: {
+            ingredients: ingredients,
             userRating: event,
-            userRater:id
+            userRater:userData.user._id
         }
     }
 
@@ -48,43 +62,68 @@ const handleRating = (event, id) => {
 
 }
 
+const getRecipe = (id) => {
+    dispatch(setRecipe(Object.values(allRecipes).filter(item=>item._id === id)))
+    navigate('/viewRecipe')
+}
+
 return(
 
-        <Col  
+        <Col 
+        className='recipes' 
         xs={12} 
-        md={{span:5, offset:1}} 
-        lg={{span:5, offset:1}}  
+        md={{span:5,offset:1}} 
+        lg={{span:5,offset:1}}  
         xl={{span:5, offset:1}} 
         style={{borderStyle:"solid",
         borderBottomStyle:'solid', 
-        paddingLeft:'2%', paddingRight:'2%', marginRight:'10px'}}>
+        paddingLeft:'2%', paddingRight:'2%', marginRight:'10px', overflowY:'scroll'}}>
+
+            {//enable user to see errors during rating of recipes
+                editRecipeStatus.hasOwnProperty('error') && (
+                    <Col xs={12} md={12} lg={12} xl={12}>
+                        <Row>
+                            <p style={{textAlign:'center', color:"red"}}>{editRecipeStatus.error}</p>
+                        </Row>
+                    </Col>
+                )
+            }
             
 
-        <Row style={{marginTop:'2%', marginBottom:'2%', borderBottomStyle:'solid'}}>
-            <Col>
-                <FilterRecipes /> 
-            </Col> 
-        </Row>
+            <Row style={{marginTop:'2%', marginBottom:'2%', borderBottomStyle:'solid'}}>
                 
-        {Object.values(allRecipes)
+                <Col>
+                    <FilterRecipes /> 
+                </Col> 
+
+            </Row>
+                
+        {//display only recipes that have status active in db - SOFT DELETE
+        Object.values(allRecipes)
+        .filter(item => item.status==='active')
+        //case insenstive filtering of data based on user input
         .filter(
-            item=>item.title.includes(filter.toUpperCase())
-            || item.title.includes(filter.toLowerCase()))
+            item=>item.title.toLowerCase().includes(filter.toLowerCase()))
         .map((item, index)=>{
             return(
-                <Row style={{borderBottomStyle:'solid', marginBottom:'10px'}} key={index}>
+                <Row 
+    
+                style={{borderBottomStyle:'solid', marginBottom:'10px'}} 
+                key={index}>
 
-                    <Col xs={7} md={7} lg={7} xl={7}>
+                    <Col xs={7} md={6} lg={7} xl={7}>
                         <span>
-                            <h4>{item.title}</h4>
+                            <h4 onClick={()=>getRecipe(item._id)}>{item.title}</h4>
                             <p style={{fontSize:"12px"}}>{item.ingredients.map(item=>item + ', ')}</p>
                         </span>
                     </Col> 
     
-                    <Col xs={5} md={5} lg={5} xl={4}>
+                    <Col xs={5} md={6} lg={5} xl={5}>
                             <RatingStars
-                                handleRating={(event, id)=> handleRating(event, item._id)} 
-                                rating={item.userRaters.includes(item._id) ? item.userRatings[item.userRaters.indexOf(item._id)] : 0}
+                                //check if user has rated recipe. If yes display his rating for given recipe. User is enabled
+                                //to revise his rating. Average rating is calculated in updateRecipe controller on server
+                                handleRating={(event, id, ingredients)=> handleRating(event, item._id, item.ingredients)} 
+                                rating={item.userRaters.includes(userData.user._id) ? item.userRatings[item.userRaters.indexOf(userData.user._id)] : 0}
                             />
                         <p 
                         style={{fontSize:"12px", marginTop:'10px', textAlign:"right", marginRight:"20px"}}>{item.mealType}</p>

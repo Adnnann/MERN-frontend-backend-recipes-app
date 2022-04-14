@@ -5,6 +5,10 @@ const createRecipe = (req, res) => {
 
     const recipe = new Recipe(req.body) 
     recipe.save((err)=>{
+
+        if(req.body.ingredients.length === 0) {
+            return res.send({error: 'Ingredients are required'})
+        }
     
         if(err){
           return res.send({error: dbErrorHandlers.getErrorMessage(err)})
@@ -33,21 +37,34 @@ const updateRecipe = (req, res, next) => {
 
     Recipe = _.extend(Recipe, req.body);
 
+    console.log(req.body.userRater)
+
     //if user is not rating same produce for the first time push his rating in array
     //otherwise change his previous rating 
-    if(Recipe.userRaters.includes(req.body.userRater)){
-       let index = Recipe.userRaters.indexOf(req.body.userRater)
-       Recipe.userRatings[index] = req.body.userRating
-    }else{
-        Recipe.userRaters.push(req.body.userRater)
-        Recipe.userRatings.push(req.body.userRating)
-    }
-    //calculate rating - sum of all elements in userRatting arr divided by number of raters
-    Recipe.rating = Recipe.userRatings.reduce((prev, curr)=>prev+curr) / Recipe.userRaters.length
-    Recipe.numberOfRaters = Recipe.userRaters.length
+    if(req.body.userRater){
 
+        if(Recipe.userRaters.includes(req.body.userRater)){
+            let index = Recipe.userRaters.indexOf(req.body.userRater)
+            Recipe.userRatings[index] = req.body.userRating
+            
+        }else{
+            Recipe.userRaters.push(req.body.userRater)
+            Recipe.userRatings.push(req.body.userRating)
+        }
+
+        //calculate rating - sum of all elements in userRatting arr divided by number of raters
+        Recipe.rating = Recipe.userRatings.reduce((prev, curr)=>prev+curr) / Recipe.userRaters.length
+        Recipe.numberOfRaters = Recipe.userRaters.length
+        Recipe.ingredients = req.body.ingredients
+
+    }
+   
+   
     Recipe.updated = Date.now()
     Recipe.save(err=>{
+        if(req.body.hasOwnProperty('ingredients') && req.body.ingredients.length === 1 && req.body.ingredients.includes('')){
+            return res.send({error: 'Ingredients are required'})
+        }
         if(err){
             return res.send({error: dbErrorHandlers.getErrorMessage(err)})
         }

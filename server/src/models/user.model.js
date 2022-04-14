@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const crypto = require('crypto')
 const validate = require('mongoose-validator')
 
+
+
 const emailValidate = [
     validate({
         validator:'isEmail',
@@ -12,16 +14,18 @@ const emailValidate = [
 const UserSchema = new mongoose.Schema({
     name:{
         type:String,
-        required:'Name is required',
+        required:'Username is required',
         trim: true,
-        match:[/^[a-zA-Z0-9]+$/, 'Only letters can be used for name']
+        match:[/^[a-zA-Z0-9]+$/, 'Only letters and numbers can be used for username'],
+        maxlength:[10, 'Username must be max 10 characters long']
 
     },
     email:{
         type:String,
         required:'Email is required',
         trim: true,
-        validate:emailValidate
+        validate:emailValidate,
+        unique:true
     },
     created: {
         type: Date,
@@ -35,6 +39,9 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required: 'Password is required'
     },
+    newPassword:{
+        type: String
+    },
     salt:String
 })
 
@@ -43,9 +50,6 @@ UserSchema.virtual('password')
     this._password = password,
     this.salt = this.makeSalt(),
     this.hashed_password = this.encryptPassword(password)
-
-    console.log(this.hashed_password)
-
 })
 
 UserSchema.methods = {
@@ -74,6 +78,24 @@ UserSchema.path('hashed_password').validate(function(v){
         this.invalidate('password', 'Password must be at least 8 characters')
     }
 }, null)
+
+// UserSchema.path("name").validate(async function (name) {
+    
+//     const username = await this.constructor.findOne({ name });    
+    
+//     if (username) {    
+        
+//         if (this.id === name.id) {    
+//             return true;    
+//         }    
+     
+//         return false;    
+    
+//     }   
+
+//     return true;   
+
+// }, `Username already exists.!`);
 
 const User = mongoose.model('User', UserSchema)
 

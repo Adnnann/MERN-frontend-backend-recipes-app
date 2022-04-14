@@ -11,7 +11,7 @@ import { useEffect } from 'react'
 import { fetchRecipes, getAllRecipes } from '../features/recipesSlice'
 import _ from 'lodash'
 import '../assets/styles/main.css'
-const HighestRatedRecipes = () => {
+const LatestPublishedRecipes = () => {
 
 
 const dispatch = useDispatch()
@@ -22,30 +22,30 @@ const allRecipes = useSelector(getAllRecipes)
 
 return(
 
-    <Col className='highestRatedRecipes' 
-    style={{ borderStyle:'solid', borderColor:'black', overflowY:'scroll', paddingLeft:'10px'}}>
+<Col className='highestRatedRecipes'
+style={{ borderStyle:'solid', borderColor:'black', overflowY:'scroll', marginTop:'5px',paddingLeft:'10px'}}>
         <Row style={{marginTop:'2%', marginBottom:'5%', borderBottomStyle:'solid'}}>
             <Col>
-                <h3>Highest rated recipes</h3>
+                <h3>Latest</h3>
             </Col> 
         </Row>
                 
         {Object.keys(allRecipes).length !== 0 ? 
 
-        _.chain(Object.values(allRecipes)
-        .filter(item=>Number(item.rating) > 0))
-        .orderBy('rating', 'desc')
-        .slice(0,10)
+        _.chain(Object.values(allRecipes))
+        .orderBy('created', 'desc')
+        .slice(0,5)
         
         .value()
         .map((item, index)=>{
             
                 return(
-                <Row style={{borderBottomStyle:'solid', marginBottom:'10px'}} key={index}>
+                <Row style={{borderBottomStyle:'solid', marginBottom:'10px'}} 
+                key={index}>
 
 
-                    <Col xs={7} md={7} lg={7} xl={7} >
-                            <h4>{item.title.length > 17 ? item.title.substr(0, 17 ) + '...' : item.title}</h4>
+                    <Col xs={7} md={7} lg={7} xl={7}>
+                            <h4>{item.title}</h4>
                     </Col> 
     
                     <Col xs={5} md={5} lg={5} xl={4} style={{pointerEvents:'none'}}>
@@ -62,8 +62,8 @@ return(
             })
    
        : 'Loading..' }
-       </Col>
+</Col>
 ) 
 }
 
-export default HighestRatedRecipes
+export default LatestPublishedRecipes
