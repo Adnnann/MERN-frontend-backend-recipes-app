@@ -37,16 +37,6 @@ useEffect(()=>{
     
 },[rate])
 
-//if user gets token from server during login login status will be set
-//to true and will enable displaying of components that only signedin user
-//can see
-//const userSigninStatus = useSelector(getUserSigninStatus)
-
-// const selectedDough = (name) => {
-//     dispatch(setSelectedDough(Doughs.data.filter(item=>item.name === name)))
-//     dispatch(setModal(true))
-// }
-
 const handleRating = (event, id, ingredients) => {
     
     const recipe = {

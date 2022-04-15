@@ -2,10 +2,17 @@
     max-height:700px ;
 }
 
+.labels {
+    text-align: right;
+}
+
 @media (max-width: 575.98px) { 
     .recipes{
         max-height:200px ; 
         margin-bottom:10px;
+    }
+    .labels{
+        text-align: left;
     }
  }
  .highestRatedRecipes{

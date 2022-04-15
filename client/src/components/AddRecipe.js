@@ -51,7 +51,6 @@ const AddRecipe = () => {
     })
  
     const handleChange = name => event => {
-        console.log(event.target.value)
         setValues({
             ...values, 
             //in case user enters ingredients store them as array.

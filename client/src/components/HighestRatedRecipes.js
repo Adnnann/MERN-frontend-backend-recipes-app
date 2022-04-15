@@ -33,7 +33,7 @@ return(
         {Object.keys(allRecipes).length !== 0 ? 
 
         _.chain(Object.values(allRecipes)
-        .filter(item=>Number(item.rating) > 0))
+        .filter(item=>Number(item.rating) > 0 && item.status==='active'))
         .orderBy('rating', 'desc')
         .slice(0,10)
         

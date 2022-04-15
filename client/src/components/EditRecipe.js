@@ -69,6 +69,7 @@ const EditRecipe = () => {
 
  
     
+    
     const handleChange = name => event => {
         setValues({
             ...values, 
@@ -136,7 +137,8 @@ const EditRecipe = () => {
 
         <Modal
         show={editRecipeModalStatus}
-        size="lg"
+        animation={false}
+        size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >

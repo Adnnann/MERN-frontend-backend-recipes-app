@@ -1,24 +1,14 @@
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/esm/Button'
 import { useDispatch, useSelector } from 'react-redux'
-//import { getUserSigninStatus, setModal, setSelectedDough } from '../../features/pizzaSlice'
 import { useNavigate } from 'react-router-dom'
-import Categories from '../assets/recipeCategories/recipeCategories'
 import RatingStars from './RatingStars'
-import Form from 'react-bootstrap/Form'
-import { useEffect } from 'react'
-import { fetchRecipes, getAllRecipes } from '../features/recipesSlice'
+import { getAllRecipes } from '../features/recipesSlice'
 import _ from 'lodash'
 import '../assets/styles/main.css'
 const LatestPublishedRecipes = () => {
 
-
-const dispatch = useDispatch()
-const navigate = useNavigate()
-
 const allRecipes = useSelector(getAllRecipes)
-
 
 return(
 
@@ -32,10 +22,9 @@ style={{ borderStyle:'solid', borderColor:'black', overflowY:'scroll', marginTop
                 
         {Object.keys(allRecipes).length !== 0 ? 
 
-        _.chain(Object.values(allRecipes))
+        _.chain(Object.values(allRecipes).filter(item=>item.status ==='active'))
         .orderBy('created', 'desc')
         .slice(0,5)
-        
         .value()
         .map((item, index)=>{
             
