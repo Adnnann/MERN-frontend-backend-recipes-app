@@ -5,7 +5,10 @@ import Container from "react-bootstrap/esm/Container"
 import Form from 'react-bootstrap/esm/Form'
 import Button from "react-bootstrap/esm/Button"
 import { useSelector, useDispatch } from "react-redux"
-import { clearEditUserMessageStatus, editUser, getEditedUserStatus, getEditUserModalStatus, getUserProfileModalStatus, 
+import {clearEditUserMessageStatus, 
+        editUser, 
+        getEditedUserStatus, 
+        getEditUserModalStatus,  
         getUserSigninData,
         setUserEditProfileModal, 
  } from "../features/recipesSlice"
@@ -33,8 +36,6 @@ const EditUser = () => {
       }
        
      
-        
-
         if(editUserStatus?.message){
             setValues({
                 newName:'',
@@ -70,7 +71,6 @@ const EditUser = () => {
         let editedUser = {}
         //update username only if user enters different than his current username
         if(values.newName !== userData.user.name){
-            console.log("the same")
             editedUser = {
                 param: userData.user._id,
                 data:{
@@ -90,16 +90,13 @@ const EditUser = () => {
             }
         }
 
-        console.log(editedUser)
     
         dispatch(editUser(editedUser))
 
-        //dispatch(clearEditUserMessageStatus())
 
     }
 
     const cancel = () => {
-        console.log('test')
         dispatch(setUserEditProfileModal(false))
     }
 
