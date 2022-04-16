@@ -201,7 +201,7 @@ const ViewRecipe = () => {
 
             
            
-            <Col xs={12} md={12} lg={10} xl={12}>
+            <Col xs={12} md={10} lg={10} xl={12}>
            
             <Row className="justify-content-center">
 

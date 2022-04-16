@@ -18,18 +18,13 @@ import {getSigninModal,
         
 } from '../../features/recipesSlice'
 import { useNavigate } from 'react-router-dom'
+import Col from 'react-bootstrap/esm/Col'
+import Row from 'react-bootstrap/esm/Row'
 
 const Header = () => {
 
     const dispatch = useDispatch()
-    const signinModal = useSelector(getSigninModal)
-
-    const userSigninData = useSelector(getUserSigninData)
     const navigate = useNavigate()
-
-    const signinUser = () => {
-        dispatch(setSigninModal(true))
-    }
 
     const signout = () => {
         dispatch(resetStore())
@@ -38,7 +33,9 @@ const Header = () => {
     }
 
     return(
-        <>
+    
+        <Col xs={12} md={12} lg={11} xl={12}>
+        <Row>
         <Nav className="justify-content-start" 
         style={{marginBottom:"2%", borderBottomStyle:'solid', borderBottomWidth:'1px', marginTop:'2%', width:"98%", marginLeft:'1%'}}>
             
@@ -56,7 +53,7 @@ const Header = () => {
 
             
                 
-            {userSigninData.hasOwnProperty('token') ?
+           
             <Nav.Item style={{marginLeft:"1%", marginRight:"2%"}}>
                 <Dropdown>
 
@@ -74,14 +71,9 @@ const Header = () => {
 
             </Nav.Item>
             
-            : <Nav.Item style={{marginLeft:"1%", marginRight:"2%", marginTop:'7px'}}>
-                    <Button onClick={()=>signinUser()}>Sign in</Button>
-                </Nav.Item>
-            }
-
       </Nav>
-     
-    </>
+      </Row>
+      </Col>
     )
 }
 

@@ -43,8 +43,6 @@ useEffect(()=>{
 
 const handleRating = (event, id, ingredients) => {
 
-    console.log(event)
-    
     const editedRecipe = {
         param: id,
         data: {
@@ -99,7 +97,8 @@ return(
 
             </Row>
                 
-        {//display only recipes that have status active in db - SOFT DELETE
+{Object.keys(allRecipes).length !== 0 ?
+    //display only recipes that have status active in db - SOFT DELETE
         Object.values(allRecipes)
         .filter(item => item.status==='active')
         //case insenstive filtering of data based on user input
@@ -113,10 +112,10 @@ return(
                 key={index}>
 
                 {/* FOR TESTING PRUPOSE. REMOVE */}
-{item.createdBy === userData.user._id ? userData.user.name : null}
+
                     <Col xs={7} md={6} lg={7} xl={7}>
                         <span>
-                            <h4 onClick={()=>getRecipe(item._id)}>{item.title}</h4>
+                            <h4 onClick={()=>getRecipe(item._id)} style={{fontWeight: item.createdBy === userData.user._id ? 'bolder' : 'normal'}}>{item.title}</h4>
                             <p style={{fontSize:"12px"}}>{item.ingredients.map(item=>item + ', ')}</p>
                         </span>
                     </Col> 
@@ -142,7 +141,7 @@ return(
                 </Row> 
                 )
             })
-        }
+        : 'No data to display'}
     </Col>
 ) 
 }

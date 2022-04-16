@@ -20,6 +20,9 @@
     .similarRecipesTitle{
         margin-left: 0px;
     }
+    .categoryCol{
+        width: 90px;
+    }
  }
  .highestRatedRecipes{
      max-height: 340px;

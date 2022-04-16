@@ -25,6 +25,7 @@ import _ from 'lodash'
 import { setSortedRating, getSortedRating } from '../features/recipesSlice';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../assets/styles/main.css'
 
 
 
@@ -130,13 +131,14 @@ for(let i=0; i<userRecipes.length;i++){
     
 }
 
-console.log(recipes)
-
 //columns for the table
 const columns = [{
     dataField: 'title',
     text: 'Title',
-    sort:true
+    sort:true,
+    headerStyle: (colum, colIndex) => {
+      return { textAlign: 'center' };
+    }
   }, 
   {
     dataField: 'rating',
@@ -145,22 +147,36 @@ const columns = [{
     headerEvents: {
         onClick: (e, column, columnIndex) => dispatch(setSortedRating({sortBy:'ratingNum', 
         order: sortRating.order === 'desc' ? 'asc' : 'desc'}))
-      }
+      },
+    headerStyle: (colum, colIndex) => {
+      return { width: '20%', textAlign: 'center' };
+    }
   }, 
   {
     dataField: 'date',
     text: 'Date',
-    sort:true
+    sort:true,
+    headerStyle: (colum, colIndex) => {
+      return { width: '20%', textAlign: 'center' };
+    }
   },
   {
     dataField: 'category',
     text: 'Category',
-    sort: true
+    sort: true,
+    headerStyle: (colum, colIndex) => {
+      return {textAlign: 'center' };
+    },
+    headerClasses: 'categoryCol',
   },
   {
     dataField: 'actions',
-    text: 'Action'
+    text: 'Action',
+    headerStyle: (colum, colIndex) => {
+      return {  textAlign: 'center' };
+    }
   },
+  
   
 ];
 
@@ -175,6 +191,7 @@ const defaultSorted = [{
           <BootstrapTable 
           keyField='title' 
           defaultSorted={defaultSorted}
+          noDataIndication='No data to display'
           //if sortBy rating action is dispatched then sort
           //data by rating value else display data 
           data={ sortRating?.sortBy 

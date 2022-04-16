@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal'
 import Image from "react-bootstrap/esm/Image";
 import CookbookIcon from '../../assets/images/CookbookIcon.png'
 import { useDispatch, useSelector } from "react-redux";
-import {fetchRecipes, getSigninModal, 
+import {clearUsingLoginStatus, fetchRecipes, getSigninModal, 
         getUserData,
         getUserSigninData, 
         loginUser, 
@@ -21,14 +21,14 @@ const Signin = () => {
 
     const signinModalStatus = useSelector(getSigninModal)
     const signinUserData = useSelector(getUserSigninData)
-    const dispatch = useDispatch()
     const userData = useSelector(getUserData)
+    
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     useEffect(()=>{
       if(signinUserData.hasOwnProperty('token')){
         dispatch(setSigninModal(false))
-        //dispatch(setUserSiginStatus(true))
         dispatch(fetchRecipes())
         navigate('/')
       }
@@ -52,6 +52,7 @@ const Signin = () => {
     }
 
     const redirectToSignup = () => {
+        dispatch(clearUsingLoginStatus())
         dispatch(setSigninModal(false))
         dispatch(setSignupModal(true))
     }

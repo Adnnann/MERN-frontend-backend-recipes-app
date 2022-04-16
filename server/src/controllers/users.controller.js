@@ -7,7 +7,7 @@ import dbErrorHandlers from '../controllers/helpers/dbErrorHandlers'
   const create = async(req, res, next) => {
 
     let nameToCheck = await User.findOne({'name':req.body.name})
-    let emailToCheck = await User.findOne({'name':req.body.email})
+    let emailToCheck = await User.findOne({'email':req.body.email})
 
     if(nameToCheck){
         return res.send({error:"Username is already taken!"})

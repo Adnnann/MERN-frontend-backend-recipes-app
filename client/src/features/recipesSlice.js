@@ -208,6 +208,9 @@ export const recipesSlice = createSlice({
     clearUploadImageStatus: (state, action) => {
       state.uploadImageStatus = {}
     },
+    clearUsingLoginStatus: (state, action) => {
+      state.userSigninData = {}
+    },
     resetStore:()=> initialState
   
   },
@@ -305,7 +308,8 @@ export const {
               clearEditUserMessageStatus,
               clearDeletUserMessageStatus,
               setSortedRating,
-              clearUploadImageStatus
+              clearUploadImageStatus,
+              clearUsingLoginStatus
 
 } = recipesSlice.actions
 
