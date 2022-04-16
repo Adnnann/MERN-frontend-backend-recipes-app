@@ -5,6 +5,9 @@
 .labels {
     text-align: right;
 }
+.similarRecipesTitle{
+    margin-left: 150px;
+}
 
 @media (max-width: 575.98px) { 
     .recipes{
@@ -13,6 +16,9 @@
     }
     .labels{
         text-align: left;
+    }
+    .similarRecipesTitle{
+        margin-left: 0px;
     }
  }
  .highestRatedRecipes{

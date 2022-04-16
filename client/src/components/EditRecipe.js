@@ -15,13 +15,15 @@ import { clearEditRecipeMessageStatus, editRecipe,
          getUserToken, 
          setEditRecipeModal, 
          uploadRecipeImage, 
-        setRecipe } from "../features/recipesSlice"
+        setRecipe, 
+        clearUploadImageStatus} from "../features/recipesSlice"
 import RatingStars from "./RatingStars"
 import '../assets/styles/main.css'
 import { useState } from "react"
 import { useEffect } from "react"
 import Categories from "../assets/recipeCategories/recipeCategories"
 import Modal from 'react-bootstrap/Modal'
+import noImg from '../assets/images/noImg.png'
 const EditRecipe = () => {
 
     const recipe = useSelector(getRecipeToEdit)
@@ -60,6 +62,7 @@ const EditRecipe = () => {
         if(editRecipeStatus.hasOwnProperty('message')){
             dispatch(fetchRecipes())
             dispatch(clearEditRecipeMessageStatus())
+            dispatch(clearUploadImageStatus())
             dispatch(setRecipe(Object.values(allRecipes).filter(item=>item.title === values.title)))
             dispatch(setEditRecipeModal(false))
         }
@@ -102,20 +105,22 @@ const EditRecipe = () => {
         document.getElementById('uploadImage').click()
     }
 
+   
     const handleUpload = event => {
     
         let formData = new FormData()
         //If image for any book is already changed and includes timestamp get only root name and add
         //timestamp and extension
-        if(recipe[0].image.includes('/') && recipe[0].image.includes('images')){
-            formData.append('test', event.target.files[0], `${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
+        if(recipe[0].image === ''){
+            formData.append('test', event.target.files[0], `image${Object.values(allRecipes).findIndex(item=>item.title === recipe[0].title)}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
+        }else if(recipe[0].image.includes('/') && recipe[0].image.includes('images')){
+            formData.append('test', event.target.files[0], `${recipe[0].image.split('/')[2].split('-')[0].split('.')[0]}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
         }else{
             //if new image uploaded name it by using original name of the first image and add
             //timestamp. Timestamp used to prevent caching error
-            formData.append('test', event.target.files[0], `${values.image}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
-            
+            formData.append('test', event.target.files[0], `${values.image}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)   
         }
-    
+
         dispatch(uploadRecipeImage(formData))
     }
     
@@ -129,6 +134,7 @@ const EditRecipe = () => {
             instructions: '',
             ingredients: []
         })
+        
         dispatch(setEditRecipeModal(false))
     }
    
@@ -168,15 +174,21 @@ const EditRecipe = () => {
                         <img style={{width:'100%'}}  
                         src={
                         Object.keys(uploadImageStatus).length !== 0 && uploadImageStatus.hasOwnProperty('imageUrl')
-                        ? uploadImageStatus.imageUrl : recipe[0].image
-                        }
+                        ? uploadImageStatus.imageUrl 
+                        : recipe[0].image === '' 
+                        ? noImg : recipe[0].image}
                           onClick={uploadImage}></img> 
                     </div>
                 </Col>
 
                 <Col xs={12} md={6} lg={6} xl={6}>
 
-                    <h3 onChange={handleChange('title')}>{values.title}</h3>
+                    <textarea  
+                         onChange={handleChange('title')}
+                         value={values.title}
+                         className="form-control" id="exampleFormControlTextarea1" rows="1" style={{width:'100%', marginBottom:'10px'}}>
+                         </textarea>
+                    
                     <div className="form-group" style={{width:'100%', marginBottom:'10px'}}>
                         <textarea 
                          onChange={handleChange('description')}

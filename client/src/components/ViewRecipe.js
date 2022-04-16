@@ -24,6 +24,7 @@ import RatingStars from "./RatingStars"
 import '../assets/styles/main.css'
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
+import noImg from '../assets/images/noImg.png'
 
 
 
@@ -116,9 +117,12 @@ const ViewRecipe = () => {
     {Object.keys(recipe).length !== 0 ?
     <>
         <Row className="justify-content-end">
-        <Col xs={12} md={3} lg={3} xl={3} style={{marginBottom:'10px', pointerEvents:'none'}}>
+        <Col xs={12} md={3} lg={3} xl={3} style={{marginBottom:'10px'}}>
+                      
                     <RatingStars
                     rating={Number(recipe[0].rating)}
+                    size={25}
+                    edit={userData.user._id === recipe[0].createdBy ? false : true}
                     />
                 
                 </Col>
@@ -127,9 +131,17 @@ const ViewRecipe = () => {
     
             <Row className="justify-content-center">
                 <Col xs={12} md={3} lg={3} xl={3} style={{marginRight:'10px',marginBottom:'10px'}}>
-                    <div style={{width:'100%', paddingBottom:'0', marginBottom:'0'}}>
-                    <img style={{width:'100%', marginTop:'15px'}}  src={recipe[0].image}></img>
-                    </div>
+                   
+        
+                    <Card style={{borderStyle:'none'}}>
+                        <Card.Img 
+                        
+                        style={{marginTop:'5px', width:'220px', height:'220px', margin:'0 auto'}}
+                        src={recipe[0].image === '' ? noImg : recipe[0].image} />
+                        
+                    </Card>
+                    
+                    
                 </Col>
 
                 <Col xs={12} md={6} lg={6} xl={6}>
@@ -190,11 +202,12 @@ const ViewRecipe = () => {
             
            
             <Col xs={12} md={12} lg={10} xl={12}>
-            <Row className="justify-content-start">
+           
+            <Row className="justify-content-center">
 
             <Row >
             
-            <h3>More like this:</h3>
+            <h3 className={'similarRecipesTitle'}>More like this:</h3>
             </Row>
 
             {
@@ -206,15 +219,12 @@ const ViewRecipe = () => {
                     
               <Col xs={12} md={4} lg={4} xl={2} style={{marginBottom:'10px'}} className='similarRecipes' key={index}>
              
-    <div className="row">
-     
-
                     <Card onClick={()=>getSimilarRecipe(item._id)}>
                         <Card.Img 
                         variant="top"
-                        style={{marginTop:'5px', width:'100%', height:'120px'}}
+                        style={{marginTop:'5px', width:'180px', height:'180px', margin:'0 auto', marginTop:'20px'}}
                         src={item.image} />
-                            <Card.Body>
+                            <Card.Body style={{margin:'0 auto'}}>
                                 <Card.Title>{item.title.length > 9 ? item.title.substr(0,9)+'...' : item.title}</Card.Title>
                                 
                                 <RatingStars 
@@ -223,7 +233,7 @@ const ViewRecipe = () => {
 
                             </Card.Body>
                         </Card>
-                        </div>
+                        
                </Col>
                
                 )

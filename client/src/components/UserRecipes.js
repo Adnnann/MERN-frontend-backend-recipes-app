@@ -41,6 +41,7 @@ const token = useSelector(getUserToken)
 const dispatch = useDispatch()
 const navigate = useNavigate()
 
+
 useEffect(()=>{
 
    //check if user token exists. 
@@ -97,7 +98,12 @@ for(let i=0; i<Object.values(allRecipes).length;i++){
         //added here to enable sorting by rating values using redux
         //and lodash orderBy function
         ratingNum: [Object.values(allRecipes)[i].rating],
-        rating: <div index={i} style={{pointerEvents:"none"}}><RatingStars rating={Number(Object.values(allRecipes)[i].rating)} /></div>,
+        rating: <div index={i}>
+        <RatingStars size={25} 
+        edit={false} 
+        rating={Number(Object.values(allRecipes)[i].rating)} 
+        />
+        </div>,
         date: dateFormat(new Date(Object.values(allRecipes)[i].created), "dd.mm.yyyy hh:mm"),
         category: Object.values(allRecipes)[i].category,
         actions: <div key={Object.values(allRecipes)[i]._id}>
@@ -147,7 +153,8 @@ const columns = [{
   },
   {
     dataField: 'category',
-    text: 'Category'
+    text: 'Category',
+    sort: true
   },
   {
     dataField: 'actions',
@@ -156,10 +163,17 @@ const columns = [{
   
 ];
 
+//on first render sort by date in desceding order
+const defaultSorted = [{
+  dataField: 'date', 
+  order: 'desc' 
+}];
+
     return (
         <Container className={'justify-content-center'}>
          <BootstrapTable 
          keyField='title' 
+         defaultSorted={defaultSorted}
          //if sortBy rating action is dispatched then sort
          //data by rating value else display data 
          data={ sortRating?.sortBy 

@@ -50,7 +50,7 @@ style={{ borderStyle:'solid', borderColor:'black', overflowY:'scroll', marginTop
             
             })
    
-       : 'Loading..' }
+       : 'No data to display' }
 </Col>
 ) 
 }

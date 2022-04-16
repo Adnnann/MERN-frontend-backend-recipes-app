@@ -103,7 +103,7 @@ export const userToken = createAsyncThunk('users/token', async()=>{
     }
   })
   .then(response=>response.data)
-  .catch(error=>error.message)
+  .catch(error=>console.log(error))
 })
 
 export const signoutUser = createAsyncThunk('users/user', async()=>{
@@ -205,6 +205,9 @@ export const recipesSlice = createSlice({
     setSortedRating:(state,action) => {
       state.sortedRating = action.payload
     },
+    clearUploadImageStatus: (state, action) => {
+      state.uploadImageStatus = {}
+    },
     resetStore:()=> initialState
   
   },
@@ -301,7 +304,8 @@ export const {
               setUserEditProfileModal,
               clearEditUserMessageStatus,
               clearDeletUserMessageStatus,
-              setSortedRating
+              setSortedRating,
+              clearUploadImageStatus
 
 } = recipesSlice.actions
 

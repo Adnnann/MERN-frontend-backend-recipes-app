@@ -1,6 +1,6 @@
 import Recipe from '../models/recipe.model'
-import _, { indexOf } from 'lodash'
 import dbErrorHandlers from './helpers/dbErrorHandlers'
+import _ from 'lodash'
 const createRecipe = (req, res) => {
 
     const recipe = new Recipe(req.body) 
@@ -33,6 +33,8 @@ const getRecipe =  (req, res) => {
 }
 const updateRecipe = (req, res, next) => {
 
+ 
+
     let Recipe = req.profile
 
     Recipe = _.extend(Recipe, req.body);
@@ -52,8 +54,16 @@ const updateRecipe = (req, res, next) => {
             Recipe.userRatings.push(req.body.userRating)
         }
 
+        let rating = Recipe.userRatings.reduce((prev, curr)=>prev+curr) / Recipe.userRaters.length
+
+        if(rating.toFixed(2).includes('.50')){
+            Recipe.rating = rating.toFixed(2)
+        }else{
+            Recipe.rating = Math.round(rating)
+        }
+
         //calculate rating - sum of all elements in userRatting arr divided by number of raters
-        Recipe.rating = Recipe.userRatings.reduce((prev, curr)=>prev+curr) / Recipe.userRaters.length
+        //Recipe.rating = Recipe.userRatings.reduce((prev, curr)=>prev+curr) / Recipe.userRaters.length
         Recipe.numberOfRaters = Recipe.userRaters.length
         Recipe.ingredients = req.body.ingredients
 
@@ -70,6 +80,57 @@ const updateRecipe = (req, res, next) => {
         }
       return res.send({message: 'Data updated'})
     })
+
+    // let recipe = req.profile
+
+
+    // recipe = _.extend(recipe, req.body);
+
+
+    // console.log(req.body)
+
+    // //if user is not rating same produce for the first time push his rating in array
+    // //otherwise change his previous rating 
+    // if(req.body.userRater){
+
+    //     if(recipe.userRaters.includes(req.body.userRater)){
+    //         let index = recipe.userRaters.indexOf(req.body.userRater)
+    //         recipe.userRatings[index] = req.body.userRating
+            
+    //     }else{
+    //         recipe.userRaters.push(req.body.userRater)
+    //         recipe.userRatings.push(req.body.userRating)
+    //     }
+
+    //     console.log(true)
+    //     //calculate rating - sum of all elements in userRatting arr divided by number of raters
+    //     let rating = recipe.userRatings.reduce((prev, curr)=>prev+curr) / Recipe.userRaters.length
+    //     if(rating.toFixed(2).includes('.50')){
+           
+    //         //nightmare in JS. Decimal points. Control if it is below or above average values.
+    //         //if .5 store in database else ceil or floor based on value being below
+    //         //or above mean value
+    //        recipe.rating = rating.toFixed(1).toString()
+    //     }else{
+    //         recipe.rating = Math.round(rating)
+    //     }
+        
+        
+    //     recipe.numberOfRaters = recipe.userRaters.length
+    //     recipe.ingredients = req.body.ingredients
+
+    // }
+   
+    // recipe.updated = Date.now()
+    // recipe.save(err=>{
+    //     if(req.body.hasOwnProperty('ingredients') && req.body.ingredients.length === 1 && req.body.ingredients.includes('')){
+    //         return res.send({error: 'Ingredients are required'})
+    //     }
+    //     if(err){
+    //         return res.send({error: dbErrorHandlers.getErrorMessage(err)})
+    //     }
+    //   return res.send({message: 'Data updated'})
+    // })
 }
 
 const removeRecipe = (req, res, next) => {

@@ -11,10 +11,12 @@ import {fetchRecipes,
         getUserSigninData, 
         setRecipe, 
         getEditRecipeStatus, 
-        clearEditRecipeMessageStatus 
+        clearEditRecipeMessageStatus, 
+        userToken
 } from '../features/recipesSlice'
 import FilterRecipes from './FilterRecipes'
 import '../assets/styles/main.css'
+import { useState } from 'react'
 const AllRecipes = () => {
 
 const dispatch = useDispatch()
@@ -27,6 +29,8 @@ const editRecipeStatus = useSelector(getEditRecipeStatus)
 
 const rate = useSelector(getEditRecipeStatus)
 
+const [rating, setRating] = useState(0)
+
 
 useEffect(()=>{
     if(rate.hasOwnProperty('message')){
@@ -38,17 +42,22 @@ useEffect(()=>{
 },[rate])
 
 const handleRating = (event, id, ingredients) => {
+
+    console.log(event)
     
-    const recipe = {
+    const editedRecipe = {
         param: id,
         data: {
             ingredients: ingredients,
+            //there is an issue when user want to return 
+            //userRating: Object.values(allRecipes).filter(item=>item._id === id)[0].rating.includes('0.5') && event === 0.5 ? 0 : event,
             userRating: event,
             userRater:userData.user._id
         }
     }
 
-    dispatch(editRecipe(recipe))
+   
+    dispatch(editRecipe(editedRecipe))
 
 }
 
@@ -56,6 +65,7 @@ const getRecipe = (id) => {
     dispatch(setRecipe(Object.values(allRecipes).filter(item=>item._id === id)))
     navigate('/viewRecipe')
 }
+
 
 return(
 
@@ -78,7 +88,8 @@ return(
                     </Col>
                 )
             }
-            
+          
+           
 
             <Row style={{marginTop:'2%', marginBottom:'2%', borderBottomStyle:'solid'}}>
                 
@@ -101,6 +112,8 @@ return(
                 style={{borderBottomStyle:'solid', marginBottom:'10px'}} 
                 key={index}>
 
+                {/* FOR TESTING PRUPOSE. REMOVE */}
+{item.createdBy === userData.user._id ? userData.user.name : null}
                     <Col xs={7} md={6} lg={7} xl={7}>
                         <span>
                             <h4 onClick={()=>getRecipe(item._id)}>{item.title}</h4>
@@ -108,12 +121,18 @@ return(
                         </span>
                     </Col> 
     
-                    <Col xs={5} md={6} lg={5} xl={5}>
+                    <Col xs={5} md={6} lg={5} xl={5} 
+                     >
                             <RatingStars
+                            size={25}
+                            edit={item.createdBy === userData.user._id ? false : true}
                                 //check if user has rated recipe. If yes display his rating for given recipe. User is enabled
                                 //to revise his rating. Average rating is calculated in updateRecipe controller on server
                                 handleRating={(event, id, ingredients)=> handleRating(event, item._id, item.ingredients)} 
-                                rating={item.userRaters.includes(userData.user._id) ? item.userRatings[item.userRaters.indexOf(userData.user._id)] : 0}
+                                rating={   
+                                item.userRaters.includes(userData.user._id) ? 
+                                item.userRatings[item.userRaters.indexOf(userData.user._id)]
+                                : 0}
                             />
                         <p 
                         style={{fontSize:"12px", marginTop:'10px', textAlign:"right", marginRight:"20px"}}>{item.mealType}</p>

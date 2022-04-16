@@ -61,7 +61,7 @@ return(
             
             })
    
-       : 'Loading..' }
+       : 'No data to display' }
        </Col>
 ) 
 }

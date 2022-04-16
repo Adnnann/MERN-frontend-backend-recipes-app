@@ -13,7 +13,8 @@ import {getAddRecipeModalStatus,
          getAddRecipeStatus,
         createRecipe,
         fetchRecipes,
-        clearAddRecipeMessageStatus} from "../features/recipesSlice"
+        clearAddRecipeMessageStatus,
+        getAllRecipes} from "../features/recipesSlice"
 import RatingStars from "./RatingStars"
 import '../assets/styles/main.css'
 import { useState } from "react"
@@ -30,12 +31,22 @@ const AddRecipe = () => {
     const uploadImageStatus = useSelector(getUploadImageStatus)
     const addRecipeModalStatus = useSelector(getAddRecipeModalStatus)
     const addRecipeStatus = useSelector(getAddRecipeStatus)
+    const allRecipes = useSelector(getAllRecipes)
 
     useEffect(()=>{
 
         if(addRecipeStatus.hasOwnProperty('message')){
             dispatch(fetchRecipes())
             dispatch(clearAddRecipeMessageStatus())
+
+            setValues({
+                title:'', 
+                image:'',
+                description:'',
+                category:'', 
+                instructions: '',
+                ingredients: []
+            })
             dispatch(setAddRecipeModal(false))
         }
 
@@ -81,17 +92,7 @@ const AddRecipe = () => {
     const handleUpload = event => {
     
         let formData = new FormData()
-        //If image for any book is already changed and includes timestamp get only root name and add
-        //timestamp and extension
-        if(recipe[0].image.includes('/') && recipe[0].image.includes('images')){
-            formData.append('test', event.target.files[0], `${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
-        }else{
-            //if new image uploaded name it by using original name of the first image and add
-            //timestamp. Timestamp used to prevent caching error
-            formData.append('test', event.target.files[0], `${values.image}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
-            
-        }
-    
+        formData.append('test', event.target.files[0], `image${Object.values(allRecipes).length+1}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
         dispatch(uploadRecipeImage(formData))
     }
     
