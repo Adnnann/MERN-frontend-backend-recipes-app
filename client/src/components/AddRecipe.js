@@ -14,7 +14,8 @@ import {getAddRecipeModalStatus,
         createRecipe,
         fetchRecipes,
         clearAddRecipeMessageStatus,
-        getAllRecipes} from "../features/recipesSlice"
+        getAllRecipes,
+        clearUploadImageStatus} from "../features/recipesSlice"
 import RatingStars from "./RatingStars"
 import '../assets/styles/main.css'
 import { useState } from "react"
@@ -38,6 +39,7 @@ const AddRecipe = () => {
         if(addRecipeStatus.hasOwnProperty('message')){
             dispatch(fetchRecipes())
             dispatch(clearAddRecipeMessageStatus())
+            dispatch(clearUploadImageStatus())
 
             setValues({
                 title:'', 

@@ -1,47 +1,41 @@
 # Description
 
-App is implementation of library system for storing data about books, publishers, and authors.
+App is implementation of simple cookbook for storing recipes.
 
-All users of the app are enabled to see all authors, books, and publishers, while only admin users have the ability to perform basic CRUD operations.
+Registered users can perform basic CRUD operations. However, editing can be done only by user who created recipe. For deleting recipes soft deleting is enabled (status on recipe is chnaged from active to inactive). Only recipes with status active are displayed for user
+
+App also enables user to see highest rated recipes. This feature is only available for recipes with >= 3 ratings from the users. Rating is average value of all user ratings. When user rates an recipe his _id is stored in userRater array and his rating is entered in userRating, hence rating is sum of all values in userRating array / length of userRater array. As rating stars cannot hold values like 3.75 (only decimal point .5 can be read and fill half on the star) computation of rating includes checking if value includes .5 (value is saved with decimal point). If decimal point is lower or higher than .5 value is rounded to higher or lower values without decimal point (if 4.25 stored rating will be 4; if 4.75 stored rating will be 5)
+
+User can filter data on home page. Filtering is case insenstive (all titles are converted to lower case and all characters entered in search field are converted to lower case to enable case insenstive filtering of data)
+
+User can view recipe, and also get complete overview of all his recipes. All users recipes are displayed in tabular form and can be sorted by clicking on the column header. Only for sorting by rating, costum logic is used as data in cell for rating holds jsx (rating starts)
+
+User profile can be edited and deleted. For user profile I used hard delete
 
 To prevent CRUD operations from POSTMAN and similar tools, middleware is added to check if user is logged in and if user is admin. Checking of user role and signin status is done by using httponlycookie. If user has jwttoken stored in cookie user is logged in, while if jwtToken role value is admin, user is authorized to perform CRUD operations.
-
-Admin can:
-
-1. Add, edit, and delete authors, publishers and books
-
-Users can:
-
-1. View authors, publishers and books
-
-App enables admin to store images for authors and books. For this purpose mutler express middleware is used and static route. Multer will check if user has folder /images on express server and if not one will be created. 
-
-All images used in app are stored in server/images folder. In case if user does not upload book or author image there are default images (for books noimg.jpr and for author - noimgUser.jpg)
-
-For importing files in database I used Mongo Compas. I have converted Excel file to JSON and then imported it into Atlas Mongo DB
-
 ## Important notes
 
-I had to name app library-2 as there is system folder library on Mac and I could not use it. If I rename it on git I will probably have troubles in process of correcting potential errors.
+User should create following two variables in /server/.env
 
-In order to use the app you shound change in server/config/config.js url for Atlas Mongo DB database and in client/.env file you should store following data:
+DATABASE=<NAME OF YOUR DATABASE>
+PASSWORD=<YOUR DATABASE PASSOWRD>
+USERNAME=<USERNAME USED FOR DATABASE>
 
-### DATABASE=library
-### PASSWORD=jOS3nAMP9GVYKdKH
+User can select folder server in terminal and enter command node seed to send post request to express server and enter ten values in database. Seed will create three users:
 
-For this app user data delivered with the assignment were used and they can be used for grading the app.
-### User credentials
-Id	name	username	password	role
-1.	John Smith 	john	$ch00l	admin
-2.	Ana Boyle	ana	$ch00l	admin
-3.	Antonio Banderas	tony	$ch00l	user
-4.	Julio Iglesias	julio	$ch00l	user
-5.	Placido Domingo	place	$ch00l	user
+1. user1
+2. user2
+3. user3
 
-Default port for connection to the express server is 5000 and default proxy set in package.json in client folder is http://localhost:5000. In case you are using Mac change default port to 3001 as 5000 is not allowed on Mac. Also don't forget to change on proxy last part of the string (5000 to 3001)
+Pass: 12345678
 
-In this assignment I was mostly focused on creating reusable components: SelectField, DatePicker, Tables. I would highly appreciate your feedback about the design of components as I mostly focused on this aspect in phase 7 of Paragon
+After creating users seed will take _id of users and randomly assign one of the ten recepies to three available users (createdBy field be filled randomly with one user _id)
 
+To show get similar functionality default value for category is lunch
+
+To enable checking of behavior of app without data user can enter node deleteSeed and all values will be removed from database. Then user can create user with signup and test behavior of the app without available recipes.
+
+I have also attached in zip files ten images that can be used for testing purposes (url values in seeded database will have values image1, image2, ... .jpg and images in zip folder were named like this.)
 
 ## Redux toolkit
 For state management Redux toolkit is used. For fetching API data redux thunk middleware is used.
@@ -50,6 +44,6 @@ For state management Redux toolkit is used. For fetching API data redux thunk mi
 For server express is used and all server logic is stored in server folder.
 
 ## UI
-For UI Material UI (MUI) library is used.
+For UI react-bootstrap library is used.
 
 

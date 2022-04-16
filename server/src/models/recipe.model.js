@@ -44,7 +44,8 @@ const RecipesSchema = new mongoose.Schema({
         default: Date.now
     },
     numberOfRaters:{
-        type:Number
+        type:Number,
+        default:0
     },
     image:{
         type:String

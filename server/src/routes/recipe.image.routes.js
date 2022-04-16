@@ -7,6 +7,7 @@ import fs from 'file-system'
 const storageBookImage = multer.diskStorage({
     destination: (req, file, callback) => {
 
+        //if folder doesn't exist, create one
         if(!fs.fs.existsSync('./images/')){
             fs.fs.mkdirSync('./images/', { recursive: true })
         }
