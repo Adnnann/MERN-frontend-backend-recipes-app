@@ -44,11 +44,11 @@ const EditUser = () => {
                 repeatedPassword:'',
                 error:''
             })
-            console.log(editUserStatus)
+         
             dispatch(setNewUserData({
                 token: userData.token,
                 user: editUserStatus.data}))
-            //dispatch(clearEditUserMessageStatus())
+            dispatch(clearEditUserMessageStatus())
             dispatch(setUserEditProfileModal(false))
         }
 
