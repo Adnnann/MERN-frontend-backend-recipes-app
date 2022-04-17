@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
 import User from '../models/user.model'
 import config from '../config/config'
-import jwtDecode from 'jwt-decode'
 const signin = (req, res) => {
     User.findOne({'name': req.body.name},(err, user) => {
         

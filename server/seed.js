@@ -3,8 +3,6 @@ const Recipes = require('./src/models/recipe.model')
 const Users = require('./src/models/user.model')
 const config = require('./src/config/config')
 const _ = require('lodash') 
-const { create } = require('./src/models/recipe.model')
-
 
 const Categories = [
     "Breakfast",
@@ -63,9 +61,6 @@ const users = [
         password:'12345678'
     }
 ]
-
-
-
 
 mongoose
 .connect(config.mongoUri, {useNewUrlParser: true, useUnifiedTopology: true })

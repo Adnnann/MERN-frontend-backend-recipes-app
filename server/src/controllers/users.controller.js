@@ -2,8 +2,6 @@ import User from '../models/user.model'
 import _ from 'lodash'
 import errorHandler from '../controllers/helpers/dbErrorHandlers'
 import dbErrorHandlers from '../controllers/helpers/dbErrorHandlers'
-import e from 'express'
-
 
   const create = async(req, res, next) => {
 
@@ -65,7 +63,6 @@ const update = async(req, res, next) => {
         }
 
         user.updated = Date.now()
-
         user.save((err)=>{
             if(err){
                 return res.send({error:dbErrorHandlers.getErrorMessage(err)})

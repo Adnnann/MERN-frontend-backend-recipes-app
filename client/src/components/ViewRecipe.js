@@ -1,32 +1,29 @@
 
 import Col from "react-bootstrap/esm/Col"
 import Row from "react-bootstrap/esm/Row"
-import FormText from "react-bootstrap/esm/FormText"
 import Container from "react-bootstrap/esm/Container"
 import Form from 'react-bootstrap/esm/Form'
 import Card from 'react-bootstrap/esm/Card'
 import { useSelector, useDispatch } from "react-redux"
-import { getAllRecipes, 
-    getRecipe, 
-    getUserSigninData, 
-    getUserToken, 
-    userToken, 
-    resetStore, 
-    setEditRecipeModal,
-    setRecipe,
-    setRecipeToEdit,
-    editRecipe,
-    getEditRecipeStatus,
-    fetchRecipes,
-    clearEditRecipeMessageStatus
- } from "../features/recipesSlice"
+import {getAllRecipes, 
+        getRecipe, 
+        getUserSigninData, 
+        getUserToken, 
+        userToken, 
+        resetStore, 
+        setEditRecipeModal,
+        setRecipe,
+        setRecipeToEdit,
+        editRecipe,
+        getEditRecipeStatus,
+        fetchRecipes,
+        clearEditRecipeMessageStatus
+} from "../features/recipesSlice"
 import RatingStars from "./RatingStars"
 import '../assets/styles/main.css'
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import noImg from '../assets/images/noImg.png'
-
-
 
 const ViewRecipe = () => {
 
@@ -117,22 +114,23 @@ const ViewRecipe = () => {
     {Object.keys(recipe).length !== 0 ?
     <>
         <Row className="justify-content-end">
-        <Col xs={12} md={3} lg={3} xl={3} style={{marginBottom:'10px'}}>
-                      
-                    <RatingStars
-                    rating={Number(recipe[0].rating)}
-                    size={25}
-                    edit={userData.user._id === recipe[0].createdBy ? false : true}
-                    />
-                
-                </Col>
+
+            <Col xs={12} md={3} lg={3} xl={3} style={{marginBottom:'10px'}}>
+                    
+                <RatingStars
+                rating={Number(recipe[0].rating)}
+                size={25}
+                edit={userData.user._id === recipe[0].createdBy ? false : true}
+                />
+            
+            </Col>
             
         </Row>
     
             <Row className="justify-content-center">
+                
                 <Col xs={12} md={3} lg={3} xl={3} style={{marginRight:'10px',marginBottom:'10px'}}>
                    
-        
                     <Card style={{borderStyle:'none'}}>
                         <Card.Img 
                         
@@ -145,13 +143,17 @@ const ViewRecipe = () => {
                 </Col>
 
                 <Col xs={12} md={6} lg={6} xl={6}>
-                <h3 style={{marginTop:'0', marginLeft:'15px'}}>{recipe[0].title}</h3>
-                <div className="form-group" style={{width:'100%', marginBottom:'10px'}}>
-                  <textarea 
-                  readOnly
-                  value={`Description:\n${recipe[0].description}`}
-                  className="form-control" id="exampleFormControlTextarea1" rows="7" style={{width:'100%'}}></textarea>
-                </div>
+
+                    <h3 style={{marginTop:'0', marginLeft:'15px'}}>{recipe[0].title}</h3>
+                    
+                    <div className="form-group" style={{width:'100%', marginBottom:'10px'}}>
+                       
+                        <textarea 
+                        readOnly
+                        value={`Description:\n${recipe[0].description}`}
+                        className="form-control" id="exampleFormControlTextarea1" rows="7" style={{width:'100%'}}></textarea>
+                    
+                    </div>
                 </Col>
 
                 
@@ -179,23 +181,23 @@ const ViewRecipe = () => {
             
             <Row className="justify-content-center">
                 <Col xs={12} md={3} lg={3} xl={3} style={{marginLeft:'10px', marginBottom:'10px'}}>
-                <div className="form-group" style={{width:'100%'}}>
-                    <textarea 
-                    readOnly
-                    value={`Ingredients:\n${recipe[0].ingredients.join(`\n`)}`}
-                    className="form-control" id="exampleFormControlTextarea1" rows="5" style={{width:'100%'}}></textarea>
-                </div>
+                    <div className="form-group" style={{width:'100%'}}>
+                        <textarea 
+                        readOnly
+                        value={`Ingredients:\n${recipe[0].ingredients.join(`\n`)}`}
+                        className="form-control" id="exampleFormControlTextarea1" rows="5" style={{width:'100%'}}></textarea>
+                    </div>
                 </Col>
 
                 <Col xs={12} md={6} lg={6} xl={6}>
-                <div className="form-group" style={{width:'100%'}}>
-                    <textarea 
-                    readOnly
-                    value={`Intructions:\n${recipe[0].instructions}`}
-                    className="form-control" 
-                    id="exampleFormControlTextarea1" 
-                    rows="8" style={{width:'100%'}}></textarea>
-                </div>
+                    <div className="form-group" style={{width:'100%'}}>
+                        <textarea 
+                        readOnly
+                        value={`Intructions:\n${recipe[0].instructions}`}
+                        className="form-control" 
+                        id="exampleFormControlTextarea1" 
+                        rows="8" style={{width:'100%'}}></textarea>
+                    </div>
                 </Col>
             </Row>
 
@@ -203,28 +205,31 @@ const ViewRecipe = () => {
            
             <Col xs={12} md={10} lg={10} xl={12}>
            
-            <Row className="justify-content-center">
+                <Row className="justify-content-start">
 
-            <Row >
-            
-            <h3 className={'similarRecipesTitle'}>More like this:</h3>
-            </Row>
+                <Row >
+                
+                <h3 className={'similarRecipesTitle'}>More like this:</h3>
+                </Row>
 
-            {
+            {//filter values with same catogory and filter out recipe being viewed
                 Object.values(allRecipes)
-                .filter(item=>item.category === 'Lunch')
+                .filter(item=>item.category === recipe[0].category 
+                && item.title !== recipe[0].title)
                 .map((item, index)=>{
                 return(
 
                     
-              <Col xs={12} md={4} lg={4} xl={2} style={{marginBottom:'10px'}} className='similarRecipes' key={index}>
+                <Col xs={12} md={4} lg={4} xl={2} style={{marginBottom:'10px'}} className='similarRecipes' key={index}>
              
                     <Card onClick={()=>getSimilarRecipe(item._id)}>
                         <Card.Img 
-                        variant="top"
-                        style={{marginTop:'5px', width:'180px', height:'180px', margin:'0 auto', marginTop:'20px'}}
-                        src={item.image} />
+                            variant="top"
+                            style={{marginTop:'5px', width:'180px', height:'180px', margin:'0 auto', marginTop:'20px'}}
+                            src={item.image !== '' ? item.image : noImg} />
+                            
                             <Card.Body style={{margin:'0 auto'}}>
+                                
                                 <Card.Title>{item.title.length > 9 ? item.title.substr(0,9)+'...' : item.title}</Card.Title>
                                 
                                 <RatingStars 
@@ -232,22 +237,23 @@ const ViewRecipe = () => {
                                 />
 
                             </Card.Body>
-                        </Card>
+                    </Card>
                         
                </Col>
                
-                )
-                })
-            }
+            )
+            })
+        }
                 
             
-            </Row>
-            </Col>  
-            </>
-            :null}
-            </Col>
+          </Row>
+        </Col>     
+        </>
+        :null}
+     
+     </Col>
        
-        </Container>
+    </Container>
     )
 }
 

@@ -1,7 +1,7 @@
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
-import { useDispatch, useSelector } from 'react-redux'
-import { getFilterRecipes, setFilterRecipes } from '../features/recipesSlice'
+import { useDispatch } from 'react-redux'
+import { setFilterRecipes } from '../features/recipesSlice'
 const FilterRecipes = () => {
     
     const dispatch = useDispatch()
@@ -18,7 +18,7 @@ const FilterRecipes = () => {
             style={{height:"30px", borderRadius:'20px', paddingLeft:'20px'}} 
             onChange={(e)=>handleChange(e)}/>
             <div 
-            style={{
+                style={{
                 position:'absolute',
                 paddingLeft:'5px', 
                 zIndex:'9999'}}>

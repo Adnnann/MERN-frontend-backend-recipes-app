@@ -5,7 +5,8 @@ import Modal from 'react-bootstrap/Modal'
 import Container from "react-bootstrap/esm/Container"
 import Form from 'react-bootstrap/esm/Form'
 import { useSelector, useDispatch } from "react-redux"
-import { getDeletedUserStatus, getUserProfileModalStatus, 
+import {getDeletedUserStatus, 
+        getUserProfileModalStatus, 
         getUserSigninData,
         resetStore,
         setUserEditProfileModal,
@@ -16,8 +17,6 @@ import { getDeletedUserStatus, getUserProfileModalStatus,
 import '../assets/styles/main.css'
 import { useEffect } from "react"
 import Button from 'react-bootstrap/Button'
-
-
 
 const ViewProfile = () => {
 
@@ -45,9 +44,9 @@ const ViewProfile = () => {
     }
 
    
-    return(
+return(
 
-<Modal
+ <Modal
     show={userProfileModalStatus}
     size="lg"
     aria-labelledby="contained-modal-title-vcenter"
@@ -79,7 +78,6 @@ const ViewProfile = () => {
         </div>
 
     
-
         {Object.keys(userData).length !== 0 && userData.hasOwnProperty('user') ?
 
             <Col xs={12} md={12} lg={12} xl={12} style={{marginTop:'20px'}}>
@@ -110,11 +108,9 @@ const ViewProfile = () => {
                 <Row className="justify-content-center">
 
                 <Col xs={12} md={4} lg={4} xl={4}>
-
-                   
+  
                     <p style={{marginLeft:'5px'}} className='labels'>{`User email `}</p>
                     
-
                 </Col>
                     
                     <Col xs={12} md={8} lg={8} xl={8}>
@@ -140,9 +136,7 @@ const ViewProfile = () => {
 
             </Col>
         : null} 
-
-        
-       
+ 
     </Container>
  </Modal>
  )

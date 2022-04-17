@@ -14,8 +14,6 @@ import {editRecipe, getAddRecipeStatus,
         clearAddRecipeMessageStatus,
         setAddRecipeModal,
         clearEditRecipeMessageStatus,
-        setRecipe,
-        getUserData,
         getUserSigninData
 } from '../features/recipesSlice';
 import RatingStars from './RatingStars';
@@ -28,13 +26,10 @@ import { useNavigate } from 'react-router-dom';
 import '../assets/styles/main.css'
 
 
-
-
 const UserRecipes = () => {
 
 const allRecipes = useSelector(getAllRecipes)
 let recipes = []
-
 
 const sortRating = useSelector(getSortedRating)
 const editRecipeStatus = useSelector(getEditRecipeStatus)
@@ -44,7 +39,6 @@ const userData = useSelector(getUserSigninData)
 
 const dispatch = useDispatch()
 const navigate = useNavigate()
-
 
 useEffect(()=>{
 

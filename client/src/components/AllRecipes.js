@@ -11,8 +11,7 @@ import {fetchRecipes,
         getUserSigninData, 
         setRecipe, 
         getEditRecipeStatus, 
-        clearEditRecipeMessageStatus, 
-        userToken
+        clearEditRecipeMessageStatus
 } from '../features/recipesSlice'
 import FilterRecipes from './FilterRecipes'
 import '../assets/styles/main.css'
@@ -29,16 +28,11 @@ const editRecipeStatus = useSelector(getEditRecipeStatus)
 
 const rate = useSelector(getEditRecipeStatus)
 
-const [rating, setRating] = useState(0)
-
-
 useEffect(()=>{
     if(rate.hasOwnProperty('message')){
         dispatch(fetchRecipes())
         dispatch(clearEditRecipeMessageStatus())
-    }
-    
-    
+    }    
 },[rate])
 
 const handleRating = (event, id, ingredients) => {
