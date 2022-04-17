@@ -2,6 +2,7 @@ import User from '../models/user.model'
 import _ from 'lodash'
 import errorHandler from '../controllers/helpers/dbErrorHandlers'
 import dbErrorHandlers from '../controllers/helpers/dbErrorHandlers'
+import e from 'express'
 
 
   const create = async(req, res, next) => {
@@ -17,10 +18,6 @@ import dbErrorHandlers from '../controllers/helpers/dbErrorHandlers'
         return res.send({error:"Email is already taken!"})
     }
 
-
-
-  
-
     const user = new User(req.body)
     user.save((err, result) => {
         if(err) {
@@ -32,8 +29,6 @@ import dbErrorHandlers from '../controllers/helpers/dbErrorHandlers'
 }
 
 const read = (req, res) => {
-    req.profile.hashed_password = undefined
-    req.profile.salt = undefined
     res.status(200).json(req.profile)
 }
 
@@ -41,6 +36,9 @@ const update = async(req, res, next) => {
     
     let userToCheck = await User.findOne({'name':req.body.name})
     let user = req.profile
+
+    let password = req.profile.hashed_password
+    let salt = req.profile.salt
 
     user = _.extend(user, req.body);
 
@@ -51,46 +49,34 @@ const update = async(req, res, next) => {
         }
 
         // chnage password only if user submits new password, otherwise keep the old one
-        if(user.newPassword.length > 0){
-            const user = await User.findOne({'_id':req.profile._id})
+        if(req.body.newPassword.length > 0){
             
-                if(!user.authenticate(req.body.password)){
-                
-                    return res.send({error: 'Incorrect password'})
-                } 
-            
-        } 
-
-        if(user.name === user.newName){
-            user.name = user.req.profile.name
+            let userProfile = await User.findOne({'_id':req.profile._id})
+                if(!userProfile.authenticate(req.body.password)){
+                    return res.send({error: 'Incorrect old password'})
+                }else{
+                    user.hashed_password = null
+                    user.password = req.body.newPassword
+                }
+                       
         }else{
-            user.name === user.newName
-            user.newName = null
+                user.hashed_password = password
+                user.salt = salt
         }
-    
-        if(user.newPassword !== ''){
-            user.password = req.body.newPassword
-        }
-        
+
         user.updated = Date.now()
-    
+
         user.save((err)=>{
             if(err){
                 return res.send({error:dbErrorHandlers.getErrorMessage(err)})
             }else{
-                return res.send({message:'Data updated'})
+                return res.send({
+                    message:'Data updated',
+                    data:user})
             }
         })
 }
           
-
-       
-
-        
- 
-
-    
-
 const remove = (req, res, next) => {
     let user = req.profile
        user.remove((err)=>{

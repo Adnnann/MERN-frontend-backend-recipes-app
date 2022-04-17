@@ -11,6 +11,8 @@ import {clearEditUserMessageStatus,
         getEditUserModalStatus,  
         getUserSigninData,
         setUserEditProfileModal, 
+        setEd,
+        setNewUserData
  } from "../features/recipesSlice"
 import '../assets/styles/main.css'
 import { useEffect } from "react"
@@ -27,7 +29,6 @@ const EditUser = () => {
 
     
     useEffect(()=>{
-
       if(!editUserStatus?.error){
         setValues({
             ...values,
@@ -35,7 +36,6 @@ const EditUser = () => {
         })
       }
        
-     
         if(editUserStatus?.message){
             setValues({
                 newName:'',
@@ -44,7 +44,11 @@ const EditUser = () => {
                 repeatedPassword:'',
                 error:''
             })
-            dispatch(clearEditUserMessageStatus())
+            console.log(editUserStatus)
+            dispatch(setNewUserData({
+                token: userData.token,
+                user: editUserStatus.data}))
+            //dispatch(clearEditUserMessageStatus())
             dispatch(setUserEditProfileModal(false))
         }
 
@@ -60,12 +64,20 @@ const EditUser = () => {
     })
     const edit = () => {
 
-        if(values.newPassword !== values.repeatedPassword){
-            //dispatch(clearEditUserMessageStatus())
+        if(values.password !== '' && (values.newPassword === '' || values.repeatedPassword === '')){
+            setValues({
+                ...values, 
+                error:'Enter old, new and repated password!'})
+                return
+        }else if(values.newPassword !== values.repeatedPassword){
             setValues({
                 ...values, 
                 error:'New and repeated password do not match!'})
                 return
+        }else{
+            setValues({
+                ...values, 
+                error:''})
         }
 
         let editedUser = {}
@@ -97,6 +109,14 @@ const EditUser = () => {
     }
 
     const cancel = () => {
+        dispatch(clearEditUserMessageStatus())
+        setValues({
+            newName:'',
+            password:'',
+            newPassword:'',
+            repeatedPassword:'',
+            error:''
+        })
         dispatch(setUserEditProfileModal(false))
     }
 
@@ -114,6 +134,14 @@ const EditUser = () => {
     centered
     >
     <Container  style={{marginTop:'5%'}} fluid>
+
+        <Col xs={12} md={12} lg={12} xl={12}>
+            <Row>
+                <p style={{textAlign:'center', color:'green'}}>To update only username, enter new username. For updating password enter old, new and repearted password</p>
+            </Row>
+        </Col>
+    
+  
 
     {
         editUserStatus.hasOwnProperty('error') && (

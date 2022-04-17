@@ -39,9 +39,6 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required: 'Password is required'
     },
-    newPassword:{
-        type: String
-    },
     salt:String
 })
 
