@@ -11,8 +11,7 @@ const FilterRecipes = () => {
     }
     
     return(
-        <InputGroup
-        style={{marginBottom:'20px', width:'40%', marginLeft:'auto', marginTop:"20px"}}>
+        <InputGroup className='filter'>
             <Form.Control 
             placeholder='Search'
             style={{height:"30px", borderRadius:'20px', paddingLeft:'20px'}} 

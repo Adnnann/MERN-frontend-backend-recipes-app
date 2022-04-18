@@ -1,3 +1,4 @@
+
 .recipes {
     max-height:700px ;
 }
@@ -7,6 +8,12 @@
 }
 .similarRecipesTitle{
     margin-left: 150px;
+}
+.filter{
+    margin-bottom:20px; 
+    width:40%;
+    margin-left:auto; 
+    margin-top:20px;
 }
 
 @media (max-width: 575.98px) { 
@@ -22,6 +29,11 @@
     }
     .categoryCol{
         width: 90px;
+    }
+    .filter{
+        max-width:60%;
+        margin-right:20px;
+        margin-left:20px;
     }
  }
  .highestRatedRecipes{

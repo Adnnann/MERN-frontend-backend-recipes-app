@@ -34,10 +34,10 @@ const Header = () => {
 
     return(
     
-        <Col xs={12} md={12} lg={11} xl={12}>
-        <Row>
+ 
+        
         <Nav className="justify-content-start" 
-        style={{marginBottom:"2%", borderBottomStyle:'solid', borderBottomWidth:'1px', marginTop:'2%', width:"98%", marginLeft:'1%'}}>
+        style={{marginBottom:"2%", borderBottomStyle:'solid', borderBottomWidth:'1px', marginTop:'2%'}}>
             
             <Nav.Item style={{marginLeft:"2%"}}>
                 <Image src={CookbookIcon} width={'50px'} onClick={()=>navigate('/')}/>
@@ -52,8 +52,6 @@ const Header = () => {
             </Nav.Item>
 
             
-                
-           
             <Nav.Item style={{marginLeft:"1%", marginRight:"2%"}}>
                 <Dropdown>
 
@@ -72,8 +70,8 @@ const Header = () => {
             </Nav.Item>
             
       </Nav>
-      </Row>
-      </Col>
+   
+
     )
 }
 

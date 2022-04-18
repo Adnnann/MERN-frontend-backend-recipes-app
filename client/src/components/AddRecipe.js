@@ -36,6 +36,7 @@ const AddRecipe = () => {
 
     useEffect(()=>{
 
+
         if(addRecipeStatus.hasOwnProperty('message')){
             dispatch(fetchRecipes())
             dispatch(clearAddRecipeMessageStatus())
@@ -64,6 +65,7 @@ const AddRecipe = () => {
     })
  
     const handleChange = name => event => {
+  
         setValues({
             ...values, 
             //in case user enters ingredients store them as array.
@@ -77,7 +79,7 @@ const AddRecipe = () => {
                 title:values.title, 
                 image:values.image,
                 description:values.description,
-                category:values.category, 
+                category:values.category === '' ? Categories[0] : values.category, 
                 instructions: values.instructions,
                 ingredients: values.ingredients,
                 image: uploadImageStatus.hasOwnProperty('imageUrl') ? 
@@ -94,6 +96,7 @@ const AddRecipe = () => {
     const handleUpload = event => {
     
         let formData = new FormData()
+        //all files will be named image{allRecipes.lenght+1}.jpg
         formData.append('test', event.target.files[0], `image${Object.values(allRecipes).length+1}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
         dispatch(uploadRecipeImage(formData))
     }
@@ -121,11 +124,11 @@ const AddRecipe = () => {
       >
 
 
-        
+<input type='file' style={{display:'none', visibility:'hidden'}} id='uploadImage' onChange={handleUpload}/>
+  
     <Col xs={12} md={12} lg={12} xl={12}>
     
-    <input type='file' style={{display:'none'}} id='uploadImage' onChange={handleUpload}/>
-  
+    
     
         <Row className="justify-content-end">
                 <Col xs={8} md={3} lg={3} xl={3} style={{marginRight:'10px',marginBottom:'10px', pointerEvents:'none'}}>
@@ -162,7 +165,8 @@ const AddRecipe = () => {
                         placeholder="Description..."
                         onChange={handleChange('description')}
                         value={values.description}
-                        className="form-control" id="exampleFormControlTextarea1" rows="7" style={{width:'100%'}}></textarea>
+                        className="form-control" id="exampleFormControlTextarea1" rows="7" 
+                        style={{width:'100%'}}></textarea>
                    </div>
 
                 </Col>
@@ -180,14 +184,27 @@ const AddRecipe = () => {
                         <p style={{fontSize:'20px'}}>Categories</p>
                         <Form.Select 
                         onChange={handleChange('category')}
-                        value={values.category} style={{width:'90%', marginBottom:'20px', marginLeft:'10px'}}>
+                        value={values.category} 
+                        style={{width:'90%', marginBottom:'20px', marginLeft:'10px'}}
+                        >
+                        
+                        
+                      
                         {
                             Categories.map((item, index)=>{
+            
                                 return(
-                                <option style={{marginRight:"200px"}} key={index} value={item}>{item}</option>
+                                    
+                                <option style={{marginRight:"200px"}} 
+                                key={index} 
+
+                                >{item}</option>
+                                
                                 )
                             })
+                            
                         }
+                       
                         </Form.Select>
                     </span>
                 </Col>
@@ -203,7 +220,8 @@ const AddRecipe = () => {
                         placeholder="Ingredients..."
                         onChange={handleChange('ingredients')}
                         value={values.ingredients}
-                        className="form-control" id="exampleFormControlTextarea1" rows="5" style={{width:'98%'}}></textarea>
+                        className="form-control" id="exampleFormControlTextarea1" rows="5" 
+                        style={{width:'98%'}}></textarea>
                     </div>
 
                 </Col>
@@ -230,6 +248,16 @@ const AddRecipe = () => {
                 </Col>
                 
             </Row>
+
+            {
+                uploadImageStatus.hasOwnProperty('Error') && (
+                    <Col xs={12} md={12} lg={12} xl={12}>
+                        <Row>
+                            <p style={{textAlign:'center', color:"red"}}>{uploadImageStatus.Error}</p>
+                        </Row>
+                    </Col>
+                )
+            }
            
             {
                 addRecipeStatus.hasOwnProperty('error') && (
