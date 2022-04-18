@@ -222,13 +222,13 @@ const ViewRecipe = () => {
                     
                 <Col xs={12} md={4} lg={4} xl={2} style={{marginBottom:'10px'}} className='similarRecipes' key={index}>
              
-                    <Card onClick={()=>getSimilarRecipe(item._id)}>
+                    <Card onClick={()=>getSimilarRecipe(item._id)} style={{paddingTop:'20px'}}>
                         <Card.Img 
                             variant="top"
-                            style={{marginTop:'5px', width:'180px', height:'180px', margin:'0 auto', marginTop:'20px'}}
+                            style={{ width:'120px', height:'120px', margin:'0 auto', marginTop:'20px'}}
                             src={item.image !== '' ? item.image : noImg} />
                             
-                            <Card.Body style={{margin:'0 auto'}}>
+                            <Card.Body style={{margin:'0 auto', marginTop:'5px'}}>
                                 
                                 <Card.Title>{item.title.length > 9 ? item.title.substr(0,9)+'...' : item.title}</Card.Title>
                                 

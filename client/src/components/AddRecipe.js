@@ -15,7 +15,9 @@ import {getAddRecipeModalStatus,
         fetchRecipes,
         clearAddRecipeMessageStatus,
         getAllRecipes,
-        clearUploadImageStatus} from "../features/recipesSlice"
+        clearUploadImageStatus,
+        setFilterIcon
+} from "../features/recipesSlice"
 import RatingStars from "./RatingStars"
 import '../assets/styles/main.css'
 import { useState } from "react"
@@ -50,6 +52,7 @@ const AddRecipe = () => {
                 instructions: '',
                 ingredients: []
             })
+            dispatch(setFilterIcon(true))
             dispatch(setAddRecipeModal(false))
         }
 
@@ -96,12 +99,15 @@ const AddRecipe = () => {
     const handleUpload = event => {
     
         let formData = new FormData()
+        console.log(Object.values(allRecipes).length+1)
+    
         //all files will be named image{allRecipes.lenght+1}.jpg
         formData.append('test', event.target.files[0], `image${Object.values(allRecipes).length+1}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
         dispatch(uploadRecipeImage(formData))
     }
     
     const cancel = () => {
+        dispatch(setFilterIcon(true))
         setValues({
             createdBy: '',
             title:'', 
@@ -111,6 +117,7 @@ const AddRecipe = () => {
             instructions: '',
             ingredients: []
         })
+        dispatch(clearUploadImageStatus())
         dispatch(setAddRecipeModal(false))
     }
    

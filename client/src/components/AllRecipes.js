@@ -69,7 +69,7 @@ return(
         xl={{span:5, offset:1}} 
         style={{borderStyle:"solid",
         borderBottomStyle:'solid', 
-        paddingLeft:'2%', paddingRight:'2%', marginRight:'10px', overflowY:'scroll'}}>
+        paddingLeft:'2%', paddingRight:'2%', marginRight:'10px', overflowY:'scroll', overflowX:'hidden'}}>
 
             {//enable user to see errors during rating of recipes
                 editRecipeStatus.hasOwnProperty('error') && (

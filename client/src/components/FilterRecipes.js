@@ -1,10 +1,11 @@
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
-import { useDispatch } from 'react-redux'
-import { setFilterRecipes } from '../features/recipesSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { getFilterIcon, setFilterRecipes } from '../features/recipesSlice'
 const FilterRecipes = () => {
     
     const dispatch = useDispatch()
+    const filterIcon = useSelector(getFilterIcon)
 
     const handleChange = (event) => {
         dispatch(setFilterRecipes(event.target.value))
@@ -18,6 +19,7 @@ const FilterRecipes = () => {
             onChange={(e)=>handleChange(e)}/>
             <div 
                 style={{
+                visibility:filterIcon ? 'visible' : 'hidden',
                 position:'absolute',
                 paddingLeft:'5px', 
                 zIndex:'9999'}}>

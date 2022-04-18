@@ -111,7 +111,7 @@ const EditRecipe = () => {
         //If image for any book is already changed and includes timestamp get only root name and add
         //timestamp and extension
         if(recipe[0].image === ''){
-            formData.append('test', event.target.files[0], `image${Object.values(allRecipes).findIndex(item=>item.title === recipe[0].title)}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
+            formData.append('test', event.target.files[0], `image${Object.values(allRecipes).findIndex(item=>item.title === recipe[0].title)+1}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
         }else if(recipe[0].image.includes('/') && recipe[0].image.includes('images')){
             formData.append('test', event.target.files[0], `${recipe[0].image.split('/')[2].split('-')[0].split('.')[0]}-${Date.now()}.${event.target.files[0].name.split('.')[1]}`)
         }else{
@@ -268,6 +268,16 @@ const EditRecipe = () => {
                 </Col>
                 
             </Row>
+
+            {
+                uploadImageStatus.hasOwnProperty('Error') && (
+                    <Col xs={12} md={12} lg={12} xl={12}>
+                        <Row>
+                            <p style={{textAlign:'center', color:"red"}}>{uploadImageStatus.Error}</p>
+                        </Row>
+                    </Col>
+                )
+            }
 
             {
                 editRecipeStatus.hasOwnProperty('error') && (

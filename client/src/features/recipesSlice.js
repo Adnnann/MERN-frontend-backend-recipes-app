@@ -139,7 +139,8 @@ const initialState = {
   userProfileModal:false,
   editUserProfile:false,
   deletedUser:{},
-  sortedRating:{}
+  sortedRating:{},
+  filterIcon:true
 }
 
 export const recipesSlice = createSlice({
@@ -214,6 +215,9 @@ export const recipesSlice = createSlice({
     setNewUserData: (state, action) => {
       state.userSigninData = action.payload
     },
+    setFilterIcon: (state, action) => {
+      state.filterIcon = action.payload
+    },
     resetStore:()=> initialState
   
   },
@@ -287,6 +291,7 @@ export const getRecipeToAdd = (state) => state.recipes.recipeToAdd
 export const getAddRecipeStatus = (state) => state.recipes.addRecipe
 export const getAddRecipeModalStatus = (state) => state.recipes.addRecipeModal
 export const getSortedRating = (state) =>state.recipes.sortedRating
+export const getFilterIcon = (state) => state.recipes.filterIcon
 
 export const {
               setSigninModal,
@@ -313,7 +318,8 @@ export const {
               setSortedRating,
               clearUploadImageStatus,
               clearUsingLoginStatus,
-              setNewUserData
+              setNewUserData,
+              setFilterIcon
 } = recipesSlice.actions
 
 

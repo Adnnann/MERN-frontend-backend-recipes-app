@@ -12,6 +12,7 @@ import {getSigninModal,
         getUserSigninStatus,
         resetStore,
         setAddRecipeModal,
+        setFilterIcon,
         setSigninModal,
         setUserProfileModalStatus,
         signoutUser,
@@ -32,6 +33,12 @@ const Header = () => {
         navigate('/')
     }
 
+    const add = () => {
+        dispatch(setFilterIcon(false))
+        dispatch(setAddRecipeModal(true))
+    }
+    
+
     return(
     
  
@@ -47,7 +54,7 @@ const Header = () => {
                 <h1>Cookbook</h1>
             </Nav.Item>
 
-            <Nav.Item style={{marginLeft:'auto', marginBottom:'2px'}} onClick={()=>dispatch(setAddRecipeModal(true))}>
+            <Nav.Item style={{marginLeft:'auto', marginBottom:'2px'}} onClick={add}>
                {<Image src={AddRecipeIcon} width={'50px'} /> } 
             </Nav.Item>
 
