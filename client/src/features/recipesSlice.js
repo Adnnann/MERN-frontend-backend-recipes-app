@@ -219,7 +219,6 @@ export const recipesSlice = createSlice({
       state.filterIcon = action.payload
     },
     resetStore:()=> initialState
-  
   },
   //fetching from server
   extraReducers: {
