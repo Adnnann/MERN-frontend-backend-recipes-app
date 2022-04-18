@@ -58,7 +58,6 @@ const getRecipe = (id) => {
     navigate('/viewRecipe')
 }
 
-
 return(
 
         <Col 

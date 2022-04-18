@@ -6,21 +6,15 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Avatar from '../../assets/images/avatar.svg'
 import CookbookIcon from '../../assets/images/CookbookIcon.png'
 import AddRecipeIcon from '../../assets/images/AddRecipeIcon.svg'
-import {useDispatch, useSelector} from "react-redux"
-import {getSigninModal, 
-        getUserSigninData, 
-        getUserSigninStatus,
-        resetStore,
+import {useDispatch } from "react-redux"
+import { resetStore,
         setAddRecipeModal,
         setFilterIcon,
-        setSigninModal,
         setUserProfileModalStatus,
         signoutUser,
         
 } from '../../features/recipesSlice'
 import { useNavigate } from 'react-router-dom'
-import Col from 'react-bootstrap/esm/Col'
-import Row from 'react-bootstrap/esm/Row'
 
 const Header = () => {
 

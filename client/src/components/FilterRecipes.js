@@ -30,6 +30,5 @@ const FilterRecipes = () => {
         </InputGroup>
     )
 }
-
 export default FilterRecipes
 

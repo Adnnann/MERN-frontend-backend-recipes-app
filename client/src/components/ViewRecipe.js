@@ -202,7 +202,6 @@ const ViewRecipe = () => {
             </Row>
 
             
-           
             <Col xs={12} md={10} lg={10} xl={12}>
            
                 <Row className="justify-content-start">
