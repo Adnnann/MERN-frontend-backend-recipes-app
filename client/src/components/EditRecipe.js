@@ -104,7 +104,6 @@ const EditRecipe = () => {
         document.getElementById('uploadImage').click()
     }
 
-   
     const handleUpload = event => {
     
         let formData = new FormData()
