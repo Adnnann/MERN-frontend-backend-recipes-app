@@ -35,7 +35,7 @@ After creating users seed will take _id of users and randomly assign one of the 
 
 To show get similar functionality default value for category is lunch
 
-To enable checking of behavior of app without data user can enter node deleteSeed and all values will be removed from database. Then user can create user with signup and test behavior of the app without available recipes.
+To enable checking of behavior of app without data user can enter node deleteSeed and all values will be removed from database. 
 
 ## Redux toolkit
 For state management Redux toolkit is used. For fetching API data redux thunk middleware is used.
