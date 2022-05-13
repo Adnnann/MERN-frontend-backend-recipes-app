@@ -23,7 +23,7 @@ PASSWORD=YOUR DATABASE PASSOWRD
 <br />
 USERNAME=USERNAME USED FOR DATABASE
 
-User can select folder server in terminal and enter command node seed to send post request to express server and enter ten values in database. Seed will create three users:
+User can select folder server in terminal and enter command node seed to send post request to express server to create three users for testing purposes:
 
 1. user1
 2. user2
