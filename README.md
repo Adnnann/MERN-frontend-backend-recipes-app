@@ -17,9 +17,11 @@ To prevent CRUD operations from POSTMAN and similar tools, middleware is added t
 
 User should create following two variables in /server/.env
 
-DATABASE=<NAME OF YOUR DATABASE>
-PASSWORD=<YOUR DATABASE PASSOWRD>
-USERNAME=<USERNAME USED FOR DATABASE>
+DATABASE=NAME OF YOUR DATABAS
+<br />
+PASSWORD=YOUR DATABASE PASSOWRD
+<br />
+USERNAME=USERNAME USED FOR DATABASE
 
 User can select folder server in terminal and enter command node seed to send post request to express server and enter ten values in database. Seed will create three users:
 
