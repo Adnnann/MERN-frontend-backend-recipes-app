@@ -37,8 +37,6 @@ To show get similar functionality default value for category is lunch
 
 To enable checking of behavior of app without data user can enter node deleteSeed and all values will be removed from database. Then user can create user with signup and test behavior of the app without available recipes.
 
-I have also attached in zip files ten images that can be used for testing purposes (url values in seeded database will have values image1, image2, ... .jpg and images in zip folder were named like this.)
-
 ## Redux toolkit
 For state management Redux toolkit is used. For fetching API data redux thunk middleware is used.
 
